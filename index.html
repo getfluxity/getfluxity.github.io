@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Get Fluxity</title>
+<style>
+  :root{
+    --bg: rgb(8,8,8);
+    --panel: #17171a;
+    --panel-2: #1c1c20;
+    --border: #2a2a2e;
+    --text: #f2f2f0;
+    --muted: #9a9a9f;
+    --accent: #ff5a45;
+    --accent-2: #ff7a68;
+    --green: #4fae6a;
+    --amber: #d9a441;
+    --blue: #5a8fd9;
+  }
+
+  *{ box-sizing: border-box; }
+  html,body{ margin:0; padding:0; }
+  html{ scroll-behavior: smooth; }
+
+  body{
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', 'Inter', system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  code, .mono{
+    font-family: 'Consolas', 'SFMono-Regular', ui-monospace, Menlo, monospace;
+  }
+
+  a{ color: inherit; text-decoration: none; }
+
+  .wrap{
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  /* NAV */
+  header.nav{
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-inner{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding: 18px 32px;
+    max-width: 1120px;
+    margin: 0 auto;
+  }
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-weight:700;
+    font-size:17px;
+    letter-spacing: -0.01em;
+  }
+  .brand-mark{
+    width:26px;
+    height:26px;
+    border-radius:6px;
+    background: var(--accent);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:800;
+    font-size:14px;
+    color:#12100f;
+  }
+  nav.links{
+    display:flex;
+    align-items:center;
+    gap:28px;
+    font-size:14.5px;
+    color: var(--muted);
+  }
+  nav.links a{
+    position: relative;
+    transition: color 0.25s ease;
+  }
+  nav.links a::after{
+    content:'';
+    position:absolute;
+    left:0; bottom:-4px;
+    width:0%;
+    height:1.5px;
+    background: var(--accent);
+    transition: width 0.25s ease;
+  }
+  nav.links a:hover{ color: var(--text); }
+  nav.links a:hover::after{ width:100%; }
+
+  .btn{
+    padding: 9px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor:pointer;
+    border: 1px solid transparent;
+    transition: background 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  }
+  .btn:active{ transform: translateY(1px) scale(0.98); }
+  .btn-accent{
+    background: var(--accent);
+    color: #14100f;
+  }
+  .btn-accent:hover{
+    background: var(--accent-2);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px -8px rgba(255,90,69,0.55);
+  }
+
+  /* HERO */
+  .hero{
+    padding: 92px 0 64px;
+  }
+  .hero-grid{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 56px;
+    align-items:center;
+  }
+  h1.headline{
+    font-size: 52px;
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    margin: 0 0 22px;
+    font-weight: 800;
+  }
+  .sub{
+    color: var(--muted);
+    font-size: 16px;
+    line-height: 1.6;
+    max-width: 46ch;
+    margin: 0 0 28px;
+  }
+  .hero-actions{
+    display:flex;
+    gap: 12px;
+    margin-bottom: 22px;
+  }
+  .btn-ghost{
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    color: var(--text);
+  }
+  .btn-ghost:hover{
+    border-color: var(--accent);
+    transform: translateY(-2px);
+  }
+  .status-line{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .dot{
+    width:7px; height:7px; border-radius:50%;
+    background: var(--amber);
+    display:inline-block;
+  }
+
+  /* Hero image */
+  .hero-image{
+    position: relative;
+    aspect-ratio: 16 / 11;
+    border-radius: 14px;
+    overflow: hidden;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.45s ease;
+  }
+  .hero-image:hover{
+    transform: translateY(-8px) scale(1.015);
+    box-shadow: 0 24px 60px -20px rgba(255,90,69,0.35), 0 8px 24px -8px rgba(0,0,0,0.6);
+    border-color: #3a2a26;
+  }
+  .hero-image img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: left center;
+    display: block;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .hero-image:hover img{
+    transform: scale(1.06);
+  }
+  .hero-image .placeholder-note{
+    position: absolute;
+    inset: 0;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    flex-direction: column;
+    gap: 8px;
+    color: var(--muted);
+    font-size: 13px;
+    text-align:center;
+    padding: 20px;
+    background: repeating-linear-gradient(45deg, #131313, #131313 10px, #161616 10px, #161616 20px);
+  }
+  .placeholder-note b{ color: var(--text); font-size: 14.5px; }
+
+  /* PROMO BANNER */
+  .promo{
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 26px 30px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap: 24px;
+    margin: 64px 0;
+    transition: border-color 0.35s ease, box-shadow 0.35s ease;
+  }
+  .promo:hover{
+    border-color: #3a2a26;
+    box-shadow: 0 20px 46px -20px rgba(255,90,69,0.3);
+  }
+  .promo h3{ margin: 0 0 6px; font-size: 19px; }
+  .promo p{ margin:0; color: var(--muted); font-size: 14px; max-width: 56ch; line-height:1.6; }
+
+  /* SECTIONS */
+  section.block{ padding: 40px 0; }
+  .eyebrow{ font-size: 12.5px; color: var(--muted); margin-bottom: 6px; }
+  h2.section-title{ font-size: 26px; margin: 0 0 8px; letter-spacing: -0.01em; }
+  .section-sub{ color: var(--muted); font-size: 14.5px; margin: 0 0 32px; max-width: 62ch; line-height:1.6; }
+
+  /* CHANGELOG */
+  .log-row{
+    display:flex;
+    align-items:flex-start;
+    gap: 20px;
+    padding: 16px 12px;
+    margin: 0 -12px;
+    border-bottom: 1px solid var(--border);
+    border-radius: 8px;
+    transition: background 0.25s ease, transform 0.25s ease;
+  }
+  .log-row:hover{
+    background: var(--panel-2);
+    transform: translateX(4px);
+  }
+  .log-date{
+    width: 64px;
+    flex-shrink:0;
+    font-size: 12.5px;
+    color: var(--muted);
+    padding-top:2px;
+  }
+  .log-tag{
+    flex-shrink:0;
+    font-size: 11px;
+    font-weight:700;
+    padding: 3px 8px;
+    border-radius: 5px;
+    text-transform:lowercase;
+    height: fit-content;
+  }
+  .tag-fix{ background: rgba(90,143,217,0.15); color: var(--blue); }
+  .tag-new{ background: rgba(255,90,69,0.15); color: var(--accent-2); }
+  .tag-sec{ background: rgba(217,164,65,0.15); color: var(--amber); }
+  .log-body{ flex:1; }
+  .log-body b{ font-weight:700; }
+  .log-body p{ margin: 0; font-size: 14.5px; color:#d6d6da; line-height:1.5; }
+  .log-plat{
+    flex-shrink:0;
+    font-size: 12px;
+    color: var(--muted);
+    padding-top:2px;
+  }
+
+  footer{
+    border-top: 1px solid var(--border);
+    margin-top: 60px;
+    padding: 26px 0;
+  }
+  .footer-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .footer-links{ display:flex; gap: 22px; }
+  .footer-links a:hover{ color: var(--text); }
+
+  .reveal{
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reveal.in{
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (max-width: 860px){
+    .hero-grid{ grid-template-columns: 1fr; }
+    h1.headline{ font-size: 38px; }
+    .promo{ flex-direction:column; align-items:flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-inner">
+    <div class="brand">
+      <div class="brand-mark">F</div>
+      Fluxity
+    </div>
+    <nav class="links">
+      <a href="#updates">Updates</a>
+      <a href="#docs">Docs</a>
+      <a href="#status">Status</a>
+    </nav>
+    <div class="btn btn-accent">Download</div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <section class="hero">
+    <div class="hero-grid">
+      <div>
+        <h1 class="headline">Providing superior<br>cheating technology<br>powered by<br>Madium.</h1>
+        <p class="sub">With advanced features and updates with every Roblox version, Fluxity proves to be better than the rest while staying free and keyless, forever.</p>
+        <div class="hero-actions">
+          <div class="btn btn-accent">Download for Windows</div>
+          <div class="btn btn-ghost">Discord</div>
+        </div>
+        <div class="status-line">
+          <span class="dot"></span>
+          All systems operational · Undetected
+        </div>
+      </div>
+
+      <div class="hero-image">
+        <!-- hero.png sits at the repo root alongside index.html -->
+        <img src="hero.png" alt="Fluxity" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="placeholder-note">
+          <b>Drop your image here</b>
+          <span>Set the &lt;img src="..."&gt; in the hero section to your screenshot or artwork.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="promo reveal">
+    <div>
+      <h3>Replace with a promo headline.</h3>
+      <p>Short supporting line explaining the offer or call to action.</p>
+    </div>
+    <div class="btn btn-accent">Call to action →</div>
+  </div>
+
+  <section id="updates" class="block reveal">
+    <div class="eyebrow">Updates</div>
+    <h2 class="section-title">Recent updates</h2>
+    <p class="section-sub">Live from your changelog — most recent entries across all products.</p>
+
+    <div class="log-list">
+      <div class="log-row">
+        <div class="log-date">Placeholder</div>
+        <span class="log-tag tag-new">new</span>
+        <div class="log-body">
+          <p><b>1.0.0</b> — Initial release notes go here.</p>
+        </div>
+        <div class="log-plat">Windows</div>
+      </div>
+      <div class="log-row">
+        <div class="log-date">Placeholder</div>
+        <span class="log-tag tag-fix">fix</span>
+        <div class="log-body">
+          <p><b>0.9.1</b> — Fix description goes here.</p>
+        </div>
+        <div class="log-plat">Windows</div>
+      </div>
+      <div class="log-row">
+        <div class="log-date">Placeholder</div>
+        <span class="log-tag tag-sec">sec</span>
+        <div class="log-body">
+          <p><b>0.9.0</b> — Update description goes here.</p>
+        </div>
+        <div class="log-plat">Windows</div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <div class="wrap footer-row">
+    <span>© 2026 Fluxity</span>
+    <div class="footer-links">
+      <a href="#">Terms</a>
+      <a href="#status">Status</a>
+      <a href="#">Discord</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting){
+        entry.target.classList.add('in');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  revealEls.forEach(el => io.observe(el));
+</script>
+</body>
+</html>
